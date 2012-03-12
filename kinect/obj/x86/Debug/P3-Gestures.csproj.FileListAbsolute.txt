@@ -88,3 +88,7 @@ C:\Users\kyungheekim\CS247_P4\kinect\obj\x86\Debug\SkeletalTracking.g.resources
 C:\Users\kyungheekim\CS247_P4\kinect\obj\x86\Debug\SkeletalTracking.Properties.Resources.resources
 C:\Users\kyungheekim\CS247_P4\kinect\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\kyungheekim\CS247_P4\kinect\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\kyungheekim\CS247_P4\kinect\bin\Debug\Microsoft.Windows.Design.Extensibility.dll
+C:\Users\kyungheekim\CS247_P4\kinect\bin\Debug\Microsoft.Windows.Design.Interaction.dll
+C:\Users\kyungheekim\CS247_P4\kinect\bin\Debug\Microsoft.Windows.Design.Extensibility.xml
+C:\Users\kyungheekim\CS247_P4\kinect\bin\Debug\Microsoft.Windows.Design.Interaction.xml

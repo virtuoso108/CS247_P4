@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Awesomium.Core, Version=1.6.4.0, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86" />
+    <Reference Include="Awesomium.Windows.Controls, Version=1.6.4.0, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86" />
+    <Reference Include="Awesomium.Windows.Controls.Design, Version=1.6.4.0, Culture=neutral, PublicKeyToken=5cd2bd3dad6c912e, processorArchitecture=x86" />
+    <Reference Include="Awesomium.Windows.Forms, Version=1.6.4.0, Culture=neutral, PublicKeyToken=9bd24830fbe304a0, processorArchitecture=x86" />
     <Reference Include="Coding4Fun.Kinect.Wpf">
       <HintPath>..\..\..\..\Dependencies\Coding4Fun.Kinect.Wpf.dll</HintPath>
     </Reference>
