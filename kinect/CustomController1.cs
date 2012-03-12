@@ -23,17 +23,16 @@ namespace SkeletalTracking
             window.webBrowser1.Navigate("http://www.cmslewis.com/cs247/final_project/orig_ui/index.html");
             sw = new Stopwatch();
             sw.Start();
-            previous = sw.Elapsed;
         }
 
-        TimeSpan previous;
+        TimeSpan inc = new TimeSpan(0, 0, 1);
 
         public override void processSkeletonFrame(SkeletonData skeleton, Dictionary<int, Target> targets)
         {
-            TimeSpan inc = new TimeSpan(0, 0, 1);
+            
             TimeSpan cur = sw.Elapsed;
             System.Console.WriteLine("Stopwatch: " + sw.ElapsedMilliseconds + " ms");
-            if (cur.Subtract(previous).CompareTo(inc) >= 0) //process 1 frame every 0.5 secs (30f/s)
+            if (cur.CompareTo(inc) >= 0) //process 1 frame every 0.5 secs (30f/s)
             {
                 Joint leftHand = skeleton.Joints[JointID.HandLeft].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint rightHand = skeleton.Joints[JointID.HandRight].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
@@ -116,7 +115,7 @@ namespace SkeletalTracking
                     }
                 }
 
-                previous = cur;
+                sw.Restart();
 
 
                /* if (deltaX_right <= 30 && deltaX_right >= 0 && deltaY_right >= 0 && deltaY_right <= 30) //Checks if right hand is in correct position before attempting to see if zoom in works, correct position is right hand in line with right shoulder.
@@ -155,7 +154,6 @@ namespace SkeletalTracking
                     System.Console.WriteLine("Return to Current Location Gesture Recognized.");
                 }*/
             }
-            else previous.Subtract(inc);
         }
 
         public override void controllerActivated(Dictionary<int, Target> targets)
