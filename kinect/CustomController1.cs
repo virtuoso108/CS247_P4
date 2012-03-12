@@ -25,13 +25,14 @@ namespace SkeletalTracking
 
         public override void processSkeletonFrame(SkeletonData skeleton, Dictionary<int, Target> targets)
         {
-            if (count % 25 == 0) //process 1 frame every 0.5 secs (30f/s)
-            {
+            
                 Joint leftHand = skeleton.Joints[JointID.HandLeft].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint rightHand = skeleton.Joints[JointID.HandRight].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint hip = skeleton.Joints[JointID.HipCenter].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint ShoulderRight = skeleton.Joints[JointID.ShoulderRight].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint ShoulderLeft = skeleton.Joints[JointID.ShoulderLeft].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
+                Joint ElbowRight = skeleton.Joints[JointID.ElbowRight].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
+                Joint ElbowLeft = skeleton.Joints[JointID.ElbowLeft].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
                 Joint Head = skeleton.Joints[JointID.Head].ScaleTo(640, 480, window.k_xMaxJointScale, window.k_yMaxJointScale);
 
                 //Calculate how far our left hand is from our left shoulder in the x and y directions.
@@ -52,13 +53,14 @@ namespace SkeletalTracking
                 double deltaX_left_Head = Math.Abs(leftHand.Position.X - Head.Position.X);
 
                 //Calculate z distance between hand and hip(our measure of body position)
-                double right_stretch = Math.Abs(rightHand.Position.Z - ShoulderRight.Position.Z);
-                double left_pan = leftHand.Position.X - ShoulderLeft.Position.X;
-                double right_displacement = rightHand.Position.Y - ShoulderRight.Position.Y;
-                double left_stretch = Math.Abs(leftHand.Position.Z - hip.Position.Z);
+                double right_stretch = rightHand.Position.Y - ElbowRight.Position.Y;
+                double left_pan = Math.Abs(leftHand.Position.X - ShoulderLeft.Position.X);
+                double right_pan = Math.Abs(rightHand.Position.X - ShoulderRight.Position.X);
+                double left_stretch = leftHand.Position.Y - ElbowLeft.Position.Y;
 
 
-
+                if (count % 15 == 0) //process 1 frame every 0.5 secs (30f/s)
+                {
                 /*//If we have a hit in a reasonable range, highlight the target
                 if (deltaX_left < 100 && deltaY_left < 100)
                 {
@@ -68,16 +70,46 @@ namespace SkeletalTracking
                         //cur.fireEvent();
                     }
                 }*/
-                //System.Console.WriteLine("Stretch: " + right_stretch);
-                // System.Console.WriteLine("Pan: " + right_displacement);
+                System.Console.WriteLine("Right Stretch: " + right_stretch);
+                System.Console.WriteLine("Left Stretch: " + left_stretch);
 
-                System.Console.WriteLine("test test test test line ");
+                //System.Console.WriteLine("test test test test line ");
                 //System.Console.WriteLine("test test test test line " + deltaX_right);
                 //System.Console.WriteLine("deltaYR: " + deltaY_right);
 
                 //System.Console.WriteLine("deltaXL: " + deltaX_left);
                 //System.Console.WriteLine("deltaYL: " + deltaY_left);
-                if (deltaX_right <= 30 && deltaX_right >= 0 && deltaY_right >= 0 && deltaY_right <= 30) //Checks if right hand is in correct position before attempting to see if zoom in works, correct position is right hand in line with right shoulder.
+
+                if (right_pan > Math.Abs(right_stretch) && right_pan >= 25)
+                {
+                    //trigger pan right
+                    System.Console.WriteLine("Swipe right Gesture recognized.");
+                    window.webBrowser1.InvokeScript("DS_nextStep");
+                }
+                else if (Math.Abs(right_stretch) > right_pan && right_stretch <= -35)
+                {
+                    //trigger zoom into map
+                    window.webBrowser1.InvokeScript("DS_zoomIn");
+                    System.Console.WriteLine("Zoom in gesture recognized.");
+                }
+                else
+                {
+                    if (left_pan > Math.Abs(left_stretch) && left_pan >= 25)
+                    {
+                        //trigger pan left
+                        window.webBrowser1.InvokeScript("DS_previousStep");
+                        System.Console.WriteLine("Swipe Left Gesture Recognized.");
+                    }
+                    else if (Math.Abs(left_stretch) > left_pan && left_stretch <= -35)
+                    {
+                        //trigger zoom out of map
+                        window.webBrowser1.InvokeScript("DS_zoomOut");
+                        System.Console.WriteLine("Zoom out gesture recongnized.");
+                    }
+                }
+
+
+               /* if (deltaX_right <= 30 && deltaX_right >= 0 && deltaY_right >= 0 && deltaY_right <= 30) //Checks if right hand is in correct position before attempting to see if zoom in works, correct position is right hand in line with right shoulder.
                 {
                     System.Console.WriteLine("Your right hand is in line with your right shoulder.");
 
@@ -95,13 +127,13 @@ namespace SkeletalTracking
                         System.Console.WriteLine("Zoom out gesture recongnized.");
                     }
                 }
-                else if (left_pan >= 35 && deltaY_left >= 0 && deltaY_left <= 30)
+                else if (left_pan >= 35)// && deltaY_left >= 0 && deltaY_left <= 30)
                 {
                     //trigger pan right
                     window.webBrowser1.InvokeScript("DS_nextStep");
                     System.Console.WriteLine("Swipe right Gesture recognized.");
                 }
-                else if (left_pan <= -35 && deltaY_left >= 0 && deltaY_left <= 30)
+                else if (left_pan <= -25)// && deltaY_left >= 0 && deltaY_left <= 30)
                 {
                     //trigger pan left
                     window.webBrowser1.InvokeScript("DS_previousStep");
@@ -111,7 +143,7 @@ namespace SkeletalTracking
                 {
                     //Return to current location gesture
                     System.Console.WriteLine("Return to Current Location Gesture Recognized.");
-                }
+                }*/
             }
             count++;
         }
