@@ -20,7 +20,8 @@ namespace SkeletalTracking
             : base(win)
         {
             window = win;
-            window.webBrowser1.Navigate("http://www.cmslewis.com/cs247/final_project/orig_ui/index.html");
+            //window.webBrowser1.Navigate("http://www.cmslewis.com/cs247/final_project/orig_ui/index.html");
+            //window.webBrowser1.Navigate("C:\\Users\\bzhang\\Documents\\Stanford\\CS247\\P4\\cs247_p4_web\\orig_ui\\index.html");
             sw = new Stopwatch();
             sw.Start();
         }
@@ -91,12 +92,14 @@ namespace SkeletalTracking
                 {
                     //trigger pan right
                     System.Console.WriteLine("Swipe right Gesture recognized.");
-                    window.webBrowser1.InvokeScript("DS_nextStep");
+                    //window.webBrowser1.InvokeScript("DS_nextStep");
+                    window.webBrowser1.CallJavascriptFunction(null, "DS_nextStep", "");
                 }
                 else if (Math.Abs(right_stretch) > right_pan && right_stretch <= -35)
                 {
                     //trigger zoom into map
-                    window.webBrowser1.InvokeScript("DS_zoomIn");
+                    //window.webBrowser1.InvokeScript("DS_zoomIn");
+                    window.webBrowser1.CallJavascriptFunction(null, "DS_zoomIn", "");
                     System.Console.WriteLine("Zoom in gesture recognized.");
                 }
                 else
@@ -104,13 +107,15 @@ namespace SkeletalTracking
                     if (left_pan > Math.Abs(left_stretch) && left_pan >= 25)
                     {
                         //trigger pan left
-                        window.webBrowser1.InvokeScript("DS_previousStep");
+                        //window.webBrowser1.InvokeScript("DS_previousStep");
+                        window.webBrowser1.CallJavascriptFunction(null, "DS_previousStep", "");
                         System.Console.WriteLine("Swipe Left Gesture Recognized.");
                     }
                     else if (Math.Abs(left_stretch) > left_pan && left_stretch <= -35)
                     {
                         //trigger zoom out of map
-                        window.webBrowser1.InvokeScript("DS_zoomOut");
+                        //window.webBrowser1.InvokeScript("DS_zoomOut");
+                        window.webBrowser1.CallJavascriptFunction(null, "DS_zoomOut", "");
                         System.Console.WriteLine("Zoom out gesture recongnized.");
                     }
                 }
