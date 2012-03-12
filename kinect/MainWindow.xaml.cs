@@ -53,7 +53,7 @@ namespace SkeletalTracking
             exampleController = new SkeletonController(this);
             yourController1 = new CustomController1(this);
             yourController2 = new CustomController2(this);
-            currentController = exampleController;
+            currentController = yourController1;
             InitTargets();
             i = 0;
         }
